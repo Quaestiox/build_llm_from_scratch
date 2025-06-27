@@ -36,6 +36,7 @@ double loss(){
         double x = m_data[i];
         double y = m_label[i];
         double pred = forward(x);
+        // MSE
         double diff = y - pred;
         res += diff * diff;
     }
