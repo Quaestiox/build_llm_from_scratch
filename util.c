@@ -1,5 +1,6 @@
 #include "./include/util.h"
 #include <stdio.h>
+#include <math.h>
 
 double numerical_diff(double(*fn)(double), double x){
     double h = 1e-4;
@@ -15,8 +16,9 @@ double square(double x){
     return x * x ;
 }
 
-int main(){
-    double test_x = 5;
-    double res = numerical_diff(fn_1, test_x);
-    printf("when x is: %.5f, numerical_diff's ans is: %.5f\n", test_x, res);
+
+double sigmoid(double x){
+    return 1.f/(1.f + exp(-x));
 }
+
+

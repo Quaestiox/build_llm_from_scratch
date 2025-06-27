@@ -6,6 +6,8 @@
 
 double numerical_diff(double(*fn)(double), double);
 
+double sigmoid(double x);
+
 #endif 
 
 
