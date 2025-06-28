@@ -10,10 +10,12 @@ struct Model{
     double b;
 };
 
+
+
 #define EPOCHS 10000
 #define N 4
 #define RATE 1e-2
-#define MODEL_NUM 5
+#define MODEL_NUM 4
 
 struct Model Models[MODEL_NUM];
 
@@ -24,8 +26,8 @@ double gate_data[N][2] = {
     {1, 1},
 };
 
-char names[MODEL_NUM][128] = {"OR", "AND", "NAND", "NOR", "XOR"};
-double labels[MODEL_NUM][N] = {
+char names[MODEL_NUM][128] = {"OR", "AND", "NAND", "NOR"};
+double gate_label[MODEL_NUM][N] = {
     // OR
     {0, 1, 1, 1},
     // AND 
@@ -34,8 +36,6 @@ double labels[MODEL_NUM][N] = {
     {1, 1, 1, 0},
     // nor
     {1, 0, 0, 0},
-    // XOR
-    {0, 1, 1, 0}
 };
 
 void init_model(){
@@ -57,9 +57,9 @@ double loss(struct Model m, double *l){
     double res = 0.f;
     for (int i = 0; i< N;i++){
         double pred = forward(m, gate_data[i][0], gate_data[i][1]);
-        double label = l[i];
+        double labels = l[i];
         // Binary Cross Entropy
-        res += -(label * log(pred) + (1 - label) * log(1 - pred));
+        res += -(labels * log(pred) + (1 - labels) * log(1 - pred));
     }
     return res/N;
 }
@@ -68,12 +68,12 @@ void show(struct Model m){
     printf("model's w1: %.5f, w2: %.5f, b: %.5f\n", m.w1, m.w2, m.b);
 }
 
-void train(struct Model *m, double *label){
+void train(struct Model *m, double *labels){
     for(int i = 0; i < EPOCHS; i++){
         for(int j = 0; j < N; j++){
             double x1 = gate_data[j][0];
             double x2 = gate_data[j][1];
-            double y = label[j];
+            double y = labels[j];
 
             double pred = forward(*m, x1, x2);
 
@@ -86,7 +86,7 @@ void train(struct Model *m, double *label){
             m->w2 -= RATE * dw2;
             m->b -= RATE * db;
         }
-        printf("loss: %.5f\n", loss(*m, label));
+        printf("loss: %.5f\n", loss(*m, labels));
     }
 }
 
@@ -100,14 +100,14 @@ void test(struct Model m){
 }
 
 void train_all(){
-    for (int i = 0; i < MODEL_NUM-1; i++){
-        double *label = labels[i];
-        train(&Models[i], label);
+    for (int i = 0; i < MODEL_NUM; i++){
+        double *l = gate_label[i];
+        train(&Models[i], l);
     }
 }
 
 void show_all(){
-    for (int i = 0; i < MODEL_NUM-1; i++){
+    for (int i = 0; i < MODEL_NUM; i++){
         struct Model m = Models[i];
         char *name = names[i];
         printf("===== %s =====\n", name);
@@ -116,13 +116,14 @@ void show_all(){
 }
 
 void test_all(){
-    for (int i = 0; i < MODEL_NUM-1; i++){
+    for (int i = 0; i < MODEL_NUM; i++){
         struct Model m = Models[i];
         char *name = names[i];
         printf("===== %s =====\n", name);
         test(m);
     }
 }
+
 
 int main(){
     init_model();
@@ -134,7 +135,17 @@ int main(){
     test_all();
 
     // Multi-layered Perceptron
+    printf("===== XOR =====\n");
+    for(int i = 0; i < 2; i++){
+        for (int j = 0; j < 2; j++){
+            double a1 = forward(Models[0], i, j);
+            double a2 = forward(Models[2], i, j);
+            printf("input: %d  %d, output:%.5f\n", i, j,forward(Models[1], a1, a2));
+        }
+    }
+
     
+
     return 0;
 }
 
