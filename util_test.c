@@ -10,6 +10,15 @@ void test_numerical_diff(){
     printf("when x is: %.5f, numerical_diff's ans is: %.5f\n", test_x, res);
 }
 
+double fn_1(double x){
+    return 0.01 * x * x + 0.1 * x;
+}
+
+double square(double x){
+    return x * x ;
+}
+
+
 void test_sigmoid(){
     for (int i = -10; i < 10; i++){
         printf("when x = %d, the result of sigmoid is %.5f\n", i, sigmoid(i));
@@ -17,7 +26,6 @@ void test_sigmoid(){
 }
 
 int main(){
-
     // test_numerical_diff();
     test_sigmoid();
 }
