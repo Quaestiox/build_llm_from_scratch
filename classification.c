@@ -10,8 +10,6 @@ struct Model{
     double b;
 };
 
-
-
 #define EPOCHS 10000
 #define N 4
 #define RATE 1e-2
@@ -43,9 +41,9 @@ void init_model(){
     double r = (double) rand()/(double) RAND_MAX;
     for (int i = 0; i < MODEL_NUM; i++){
         struct Model m = Models[i];
-            m.w1 = r;
-            m.w2 = r;
-            m.b = r;
+        m.w1 = r;
+        m.w2 = r;
+        m.b = r;
     }
 }
 
@@ -135,6 +133,7 @@ int main(){
     test_all();
 
     // Multi-layered Perceptron
+    // XOR
     printf("===== XOR =====\n");
     for(int i = 0; i < 2; i++){
         for (int j = 0; j < 2; j++){
