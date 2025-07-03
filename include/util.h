@@ -6,7 +6,10 @@
 
 double numerical_diff(double(*fn)(double), double);
 
-double sigmoid(double x);
+double sigmoid(double);
+
+double cosine_similarity(double *, double*, int);
+
 
 #endif 
 

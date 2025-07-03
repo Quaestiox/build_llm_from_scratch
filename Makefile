@@ -27,7 +27,12 @@ ${obj_dir}/%.o: %.c
 	mkdir -p ${obj_dir}
 	clang ${flags} -c $< -o $@
 
+test: ${objs}
+	mkdir -p ${build_dir}
+	clang ${flags} util_test.c ${objs} -o ${build_dir}/util_test
+	${build_dir}/util_test
+
 clean:
 	rm -rf ${build_dir}
 
-.PHONY: all regression class clean countb
+.PHONY: all regression class clean countb test
