@@ -3,6 +3,7 @@
 #include <assert.h> 
 #include <math.h>
 #include <stdlib.h>
+#include "./include/util.h"
 
 #define MAX_TOKEN 1000
 #define MAX_EL 100
@@ -65,7 +66,7 @@ void print_vocab(){
 void build_co_mat(char **tokens, int len, int window_size){
     for(int i = 0; i < len; i++) {
         int id = get_id_by_token(tokens[i]);
-        for(int j = i - window_size; j < i + window_size; j++){
+        for(int j = i - window_size; j <= i + window_size; j++){
             if (j < 0 || j >= len || j == i) continue;
             int ct_id = get_id_by_token(tokens[j]);
             co_mat[id][ct_id] ++;
@@ -106,6 +107,22 @@ void print_mat(Mat mat, char *name){
     printf("]\n");
 }
 
+void predict(char *word){
+    int id = get_id_by_token(word);
+    double best_sim = -1.f;
+    int res = 0;
+    for(int i = 0; i < vocab.count; i++){
+        if (id == i) continue;
+        double sim = cosine_similarity(ppmi_mat[id],ppmi_mat[i],vocab.count);
+        if (sim > best_sim){
+            best_sim = sim;
+            res = i;
+        }
+    }
+    printf("input: %s, predict word: %s\n", word, get_token_by_id(res).token);
+    printf("cosine_similarity is: %.5f\n", best_sim);
+}
+
 int main(){
     char *tokens[10] = {"i", "like", "deep", "learning", "i", "like", "nlp", "i", "enjoy", "flying"};
 
@@ -117,6 +134,8 @@ int main(){
     print_mat(co_mat, "co_occurence matrix") ;
     build_ppmi_max();
     print_mat(ppmi_mat, "PPMI matrix");
+
+    predict("like");
 }
 
 
