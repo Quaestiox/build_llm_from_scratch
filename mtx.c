@@ -12,17 +12,32 @@ Mtx* init_mtx(int rows, int cols){
 }
 
 double mtx_at(Mtx mtx, int row, int col){
+    row --;
+    col --;
     return *(mtx.els + (mtx.cols * row + col));
 }
 
+
+void mtx_up(Mtx *mtx, int row, int col, double v){
+    row --;
+    col --;
+    *(mtx->els + (mtx->cols * row + col)) += v;
+}
+
 void mtx_set(Mtx *mtx, int row, int col, double v){
+    row --;
+    col --;
     *(mtx->els + (mtx->cols * row + col)) = v;
 }
 
 void print_mtx(Mtx mtx, char *name){
-    printf("%s = [\n", name);
-    for (int i = 0; i < mtx.rows; i++){
-        for(int j = 0; j < mtx.cols; j++){
+    if (name == NULL){
+        printf("[\n");
+    }else{
+        printf("%s = [\n", name);
+    }
+    for (int i = 1; i <= mtx.rows; i++){
+        for(int j = 1; j <= mtx.cols; j++){
             printf("%10.5f", mtx_at(mtx, i, j));
         }
         printf("\n");
@@ -31,8 +46,8 @@ void print_mtx(Mtx mtx, char *name){
 }
 
 void rand_mtx(Mtx *mtx){
-    for (int i = 0; i < mtx->rows; i++){
-        for(int j = 0; j < mtx->cols; j++){
+    for (int i = 1; i <= mtx->rows; i++){
+        for(int j = 1; j <= mtx->cols; j++){
             mtx_set(mtx, i, j, (double)rand()/(double)RAND_MAX);
         }
     }

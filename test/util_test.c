@@ -1,4 +1,4 @@
-#include "./include/util.h"
+#include "../include/util.h"
 #include <stdio.h>
 #include <math.h>
 
@@ -31,8 +31,16 @@ void test_cosine_similarity(){
 
 }
 
+void test_softmax(){
+    double a[5] = {2, 3, 4, 5, 6};
+    double out[5] = {0};
+    softmax(a, 5, out);
+    print_arr(out, 5);
+}
+
 int main(){
     // test_numerical_diff();
 //    test_sigmoid();
-    test_cosine_similarity();
+//    test_cosine_similarity();
+    test_softmax();
 }

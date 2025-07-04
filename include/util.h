@@ -10,8 +10,9 @@ double sigmoid(double);
 
 double cosine_similarity(double *, double*, int);
 
-void softmax(double *arr, int len);
+void softmax(double *x, int len, double *out);
 
+void print_arr(double *arr, int len);
 #endif 
 
 

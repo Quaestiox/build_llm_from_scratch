@@ -6,5 +6,6 @@ int main(){
     Mtx *mtx = init_mtx(3, 3);
     rand_mtx(mtx);
     print_mtx(*mtx, "try");
+    print_mtx(*mtx, NULL);
     free(mtx);
 }

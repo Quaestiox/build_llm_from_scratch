@@ -26,4 +26,31 @@ double cosine_similarity(double a[], double b[], int dim){
     return dot / (sqrt(nm_a) * sqrt(nm_b));
 }
 
-void softmax(double *arr, int len);
+// To prevent overflow, the original maximum value of each element will be subtracted first
+void softmax(double *x, int len, double *out) {
+    double max = x[0];
+    for (int i = 1; i < len; ++i)
+        if (x[i] > max) max = x[i];
+
+    double sum = 0;
+    for (int i = 0; i < len; ++i) {
+        out[i] = exp(x[i] - max);
+        sum += out[i];
+    }
+
+    for (int i = 0; i < len; ++i){
+        out[i] /= sum;
+    }
+}
+
+void print_arr(double *arr, int len){
+    printf("[");
+    for (int i = 0; i< len;i++){
+        printf("%8.3f", arr[i]);
+    }
+    printf("   ]\n");
+}
+
+
+
+

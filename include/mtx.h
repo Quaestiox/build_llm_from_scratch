@@ -29,6 +29,12 @@ typedef struct{
 
 Mtx* init_mtx(int rows, int cols);
 
+double mtx_at(Mtx mtx, int row, int col);
+
+void mtx_set(Mtx *mtx, int row, int col, double v);
+
+void mtx_up(Mtx *mtx, int row, int col, double v);
+
 void print_mtx(Mtx mtx, char *name);
 
 void rand_mtx(Mtx *mtx);
