@@ -10,6 +10,7 @@ double sigmoid(double);
 
 double cosine_similarity(double *, double*, int);
 
+void softmax(double *arr, int len);
 
 #endif 
 

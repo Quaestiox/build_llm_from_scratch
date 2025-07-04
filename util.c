@@ -25,3 +25,5 @@ double cosine_similarity(double a[], double b[], int dim){
 
     return dot / (sqrt(nm_a) * sqrt(nm_b));
 }
+
+void softmax(double *arr, int len);

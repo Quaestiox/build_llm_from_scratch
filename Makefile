@@ -3,10 +3,12 @@ flags := -Wall -Wextra
 build_dir := ./build
 obj_dir := ${build_dir}/obj
 
-srcs := util.c
+srcs := util.c mtx.c
+test_dir := ./test
+tests := $(wildcard ${test_dir}/*.c)
 objs := $(patsubst %.c,${obj_dir}/%.o,${srcs})
 
-all: regression classification
+all: 
 
 regression: ${objs}
 	mkdir -p ${build_dir}
@@ -18,19 +20,29 @@ class: ${objs}
 	clang ${flags} classification.c ${objs} -o ${build_dir}/classification
 	${build_dir}/classification
 
-countb: ${objs}
+countb: ${obj_dir}/util.o
 	mkdir -p ${build_dir}
-	clang ${flags} count_based.c ${objs} -o ${build_dir}/count_based
+	clang ${flags} count_based.c ${obj_dir}/util.o -o ${build_dir}/count_based
 	${build_dir}/count_based
+
+cbow: ${objs}
+	mkdir -p ${build_dir}
+	clang ${flags} cbow.c ${objs} -o ${build_dir}/cbow
+	${build_dir}/cbow
 
 ${obj_dir}/%.o: %.c
 	mkdir -p ${obj_dir}
 	clang ${flags} -c $< -o $@
 
-test: ${objs}
+util_test: ${objs}
 	mkdir -p ${build_dir}
-	clang ${flags} util_test.c ${objs} -o ${build_dir}/util_test
+	clang ${flags} ${test_dir}/util_test.c ${objs} -o ${build_dir}/util_test
 	${build_dir}/util_test
+
+mtx_test: ${objs}
+	mkdir -p ${build_dir}
+	clang ${flags} ${test_dir}/mtx_test.c ${objs} -o ${build_dir}/mtx_test
+	${build_dir}/mtx_test
 
 clean:
 	rm -rf ${build_dir}
