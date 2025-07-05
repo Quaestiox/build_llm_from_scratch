@@ -48,14 +48,14 @@ void print_mtx(Mtx mtx, char *name){
 void rand_mtx(Mtx *mtx){
     for (int i = 1; i <= mtx->rows; i++){
         for(int j = 1; j <= mtx->cols; j++){
-            mtx_set(mtx, i, j, (double)rand()/(double)RAND_MAX);
+            mtx_set(mtx, i, j, (double)rand()/(double)RAND_MAX );
         }
     }
 
 }
 
 Token get_token_by_id(Vocab vocab, int id){
-    assert(id < vocab.count && id > 0);
+    assert(id < vocab.count && id >= 0);
     return vocab.dict[id];
 }
 
